@@ -5,7 +5,7 @@ router.get("/categories", (req, res) =>{
     res.send("rota de categorias")
 })
 router.get("/admin/categories/new", (req, res)=>{
-    res.send("rota adm artigos");
+    res.render("../views/admin/categories/new.ejs");
 })
 
 module.exports = router;
