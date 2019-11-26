@@ -21,6 +21,18 @@ router.get("/admin/categories/new", (req, res)=>{
     res.render("../views/admin/categories/new.ejs");
 })
 router.get("/admin/categories" ,(req, res) => {
-    res.render("../views/admin/categories/index.ejs");
-})
+    Category.findAll().then(categories => {
+
+        res.render("../views/admin/categories/index.ejs", {categories: categories});
+    });
+});
+
+router.post("/categories/delete", (req, res) =>{
+    const id = req.body.id;
+    if(id != undefined){
+
+    }else{
+
+    }
+});
 module.exports = router;

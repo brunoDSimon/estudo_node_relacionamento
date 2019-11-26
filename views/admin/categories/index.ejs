@@ -1,23 +1,32 @@
 <%- include ../../partials/header.ejs %>
 <%- include ../../partials/navbar.ejs %>
-<div class="container">
+<div class="container bg-light">
     <div class="col">
-        <h5>Categorias</h5>
+        <h3>Categorias</h3>
+        <a class="btn btn-outline-sucess" href="/admin/categories/new" > Criar</a>
         <table class="table table-light">
             <thead class="thead-light">
                 <tr>
-                    <th>#</th>
-                    <th>#</th>
-                    <th>#</th>
+                    <th>id</th>
+                    <th>titulo</th>
+                    <th>slug</th>
+                    <th>Ações</th>
 
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                </tr>
+                <% categories.forEach(category => {%>
+                    <tr>
+                        <td><%= category.id %> </td>
+                        <td><%= category.title %> </td>
+                        <td><%= category.slug %> </td>
+                        <td> 
+                            <div> <button class="btn btn-outline-warning">Apagar</button>
+                            <button class="btn btn-outline-primary ">Editar</button>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %> 
             </tbody>
         </table>
     </div>
