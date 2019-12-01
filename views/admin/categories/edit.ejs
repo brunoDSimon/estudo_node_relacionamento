@@ -1,0 +1,22 @@
+<%- include ../../partials/header.ejs %>
+<%- include ../../partials/navbar.ejs %>
+
+<div class="container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                EDITAR Categorias
+            </div>
+            <div class="card-body">
+                <form action="/categories/update" method="POST" > 
+                    <div class="form-group">
+                        <input class="form-control w-25" type="text" name="title"  value="<%= category.title %>">
+                        <input class="form-control" type="hidden" name="id" value="<%=category.id %>">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success">atualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include ../../partials/footer.ejs %>

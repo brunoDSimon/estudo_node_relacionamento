@@ -3,7 +3,7 @@
 <div class="container bg-light">
     <div class="col">
         <h3>Categorias</h3>
-        <a class="btn btn-outline-sucess" href="/admin/categories/new" > Criar</a>
+        <a class="btn btn-outline-primary mb-2" href="/admin/categories/new" > Criar</a>
         <table class="table table-light">
             <thead class="thead-light">
                 <tr>
@@ -21,8 +21,16 @@
                         <td><%= category.title %> </td>
                         <td><%= category.slug %> </td>
                         <td> 
-                            <div> <button class="btn btn-outline-warning">Apagar</button>
-                            <button class="btn btn-outline-primary ">Editar</button>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="/admin/categories/edit/<%= category.id %> " class="btn btn-outline-primary ">Editar</a >
+                                </div>
+                                <div class="col-6">
+                                    <form action="/categories/delete" method="POST" onsubmit="apagar(event, this)">
+                                        <input class="form-control" type="hidden" name="id" value="<%= category.id %>">
+                                        <button class="btn btn-outline-warning" ">Apagar</button>
+                                    </form>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -30,6 +38,34 @@
             </tbody>
         </table>
     </div>
+    <!-- <div class="modal" tabindex="-1" role="dialog" >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Título do modal</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Quer apagar esta categoria?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" >Apagar</button>
+                </div>
+              </div>
+            </div>
+    </div> -->
 </div>
 
 <%- include ../../partials/footer.ejs %>
+<script>
+    function apagar(event, form) {
+        event.preventDefault();
+        var decision = confirm("Apagar esta categoria?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>
