@@ -8,12 +8,19 @@
                 Novo artigo
             </div>
             <div class="card-body">
-                <form action="/categories/save" method="POST" > 
+                <form action="/article/save" method="POST" > 
                     <div class="form-group">
                         <input class="form-control w-25 mb-2" type="text" name="title" placeholder="titulo do artigo">
-                        <textarea class="form-control name="body" id="article" cols="15" rows="10" placeholder="Descreva o artigo">
+                        <textarea class="form-control" name="body" id="article" cols="15" rows="10" placeholder="Descreva o artigo">
 
                         </textarea>
+                        <label for="">Categoria</label>
+                        <select name="category" id="" class="form-control">
+                            <% categories.forEach((category) => {%>
+                                <option value="<%= category.id %>"><%= category.title %></option>
+                                <% }) %> 
+                            <br>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-outline-success">cadastrar</button>
                 </form>
@@ -25,6 +32,7 @@
 <script src="/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
+        language: 'pt_BR',
         selector: "#article",
         plugins: [
             'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save  table paste emoticons'
