@@ -89,4 +89,22 @@ router.post("/articles/update", (req,res) => {
     })
 })
 
+router.get("/articles/page/:num",(req,res) =>{
+    var page = req.params.num;
+    var offset = 0;
+    if(isNaN(page) || page == 1 ){
+        offset = 0
+    }else{
+        // DEFINIR UM LIMITE PARA A PAGINACAO E FAZER VEZES O MESMO VALOR PARA MUDAR O QUE ESTA VINDO NA PAGINA 
+        offset = parseInt(page) * 4;
+    }
+
+    Article.findAndCountAll({
+        limit: 4,
+        offset: offset
+    }).then(articles =>{
+        res.json(articles);
+    })
+});
+
 module.exports = router;
