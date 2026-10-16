@@ -42,4 +42,20 @@ Regras:
    @ApiPropertyOptional (description, example, type, format, enum, nullable,
    required). Se o plugin CLI estiver ativo, documentar só o que ele não infere.
 4. params-and-query (HIGH): @ApiParam para path params; query sempre via DTO de
-   query (paginação, filtros, ordenação) com enums e defaults docum
+   query (paginação, filtros, ordenação) com enums e defaults documentados.
+5. responses-dto (HIGH): nunca expor entidade ou linha do banco; sempre DTO de
+   resposta próprio. Cobrir 201/204, arrays e paginação.
+6. errors-standard-set (HIGH): conjunto mínimo de erros por tipo de rota
+   (GET por id: 404; POST/PUT: 400 e 409 quando houver unicidade; rotas
+   autenticadas: 401 e 403), sempre no formato do filter.
+7. naming-and-tags (MEDIUM): @ApiTags por controller, summary curto no imperativo,
+   operationId estável e único, sem duplicar schemas.
+8. verify-openapi (HIGH): gerar o JSON do OpenAPI com o comando do projeto e
+   conferir que toda rota tem summary, ao menos um 2xx no envelope padrão, erros
+   documentados, e que nenhum schema ficou como `object` vazio ou sem $ref.
+
+Requisitos:
+- TypeScript estrito, compatível com NestJS 11 e @nestjs/swagger atual.
+- Apenas Markdown, nenhum script executável.
+- No final, liste os arquivos criados e dê um exemplo de controller antes e depois
+  da skill aplicada.
