@@ -1,0 +1,40 @@
+Crie uma skill de agente chamada `nestjs-raw-sql` para o projeto services-empresa-rest
+(NestJS + SQL direto, SEM ORM).
+
+Contexto:
+- Banco: <Postgres / MySQL / SQL Server>
+- Driver: <pg / mysql2 / mssql>
+- A skill complementa a `nestjs-best-practices` (kadajett), da qual removemos as
+  regras de TypeORM. Siga o MESMO formato dela.
+
+Estrutura:
+skills/nestjs-raw-sql/
+├── SKILL.md          # frontmatter (name, description com gatilhos), tabela de
+│                     # categorias por prioridade e quick reference
+└── rules/            # um arquivo por regra, com frontmatter (title, impact, tags),
+                      # exemplo INCORRETO vs CORRETO e link de referência
+
+Regras obrigatórias:
+1. security-parameterized-queries (CRITICAL): sempre placeholders, nunca concatenar
+   ou interpolar string; whitelist para ORDER BY e nomes de coluna dinâmicos.
+2. arch-database-provider (CRITICAL): Pool como provider em um DatabaseModule,
+   config via ConfigService.getOrThrow, encerramento do pool em onModuleDestroy.
+3. arch-repository-raw-sql (HIGH): SQL só dentro de repositories; services não
+   montam query; retorno tipado (interface por linha) e mapeamento snake_case → camelCase.
+4. db-transactions (HIGH): client dedicado, BEGIN/COMMIT/ROLLBACK em try/finally
+   com release; helper withTransaction(fn) reutilizável.
+5. db-avoid-n-plus-one (HIGH): JOIN ou WHERE id = ANY/IN em lote, nunca query em loop.
+6. db-migrations (HIGH): migrations versionadas em SQL puro (sugira uma ferramenta
+   compatível com o driver), nunca alterar schema na mão.
+7. perf-query-optimization (MEDIUM): selecionar colunas explícitas (sem SELECT *),
+   paginação com LIMIT/OFFSET ou keyset, índices, uso de EXPLAIN.
+8. error-db-errors (MEDIUM): traduzir erros do driver (unique violation, FK, timeout)
+   para exceções HTTP do NestJS sem vazar SQL ou detalhes do banco.
+9. test-repositories (MEDIUM): testar repositories contra banco real isolado
+   (container), não mockar o driver.
+
+Requisitos:
+- Exemplos em TypeScript estrito, compatíveis com NestJS 11.
+- Nada de scripts executáveis na skill, apenas Markdown.
+- SKILL.md com no máximo ~120 linhas; o detalhe fica nos arquivos de regra.
+- No final, liste os arquivos criados e um exemplo de prompt que ativa a skill.
