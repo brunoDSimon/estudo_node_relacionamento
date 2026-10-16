@@ -1,0 +1,45 @@
+Crie uma skill de agente chamada `nestjs-swagger-docs`. Ela é GENÉRICA: não use
+nome de projeto, empresa ou domínio em nenhum arquivo nem exemplo (use nomes neutros
+como Item, Order, User).
+
+Objetivo: sempre que um endpoint for criado ou alterado, o Swagger deve ficar
+atualizado e padronizado, com params, query, body, responses e erros documentados,
+SEMPRE respeitando o default response do projeto.
+
+Estrutura (mesmo formato da nestjs-best-practices da kadajett):
+skills/nestjs-swagger-docs/
+├── SKILL.md   # frontmatter + workflow + quick reference (no máximo ~120 linhas)
+└── rules/     # um arquivo por regra: frontmatter (title, impact, tags),
+               # exemplo INCORRETO vs CORRETO e referência
+
+Description do frontmatter: deve disparar ao criar ou alterar controller, rota, DTO,
+response, exception filter ou interceptor de resposta, e também ao pedir para
+"documentar API" ou "atualizar swagger".
+
+Workflow obrigatório no SKILL.md:
+1. Descobrir antes de escrever:
+   - setup do Swagger (DocumentBuilder em main.ts ou em módulo próprio)
+   - se o plugin CLI do @nestjs/swagger está ativo no nest-cli.json
+   - o DEFAULT RESPONSE do projeto (interceptor, classe ou tipo que envelopa as
+     respostas de sucesso)
+   - o formato de ERRO (exception filter global)
+   - decorators de documentação que já existem
+2. Nunca inventar envelope ou formato de erro. Se não encontrar, parar e perguntar.
+3. Reutilizar decorators existentes; criar novos só se faltar algum.
+4. Documentar a rota inteira e validar (ver regra de verificação).
+
+Regras:
+1. contract-discover-default-response (CRITICAL): localizar o envelope real e
+   documentar exatamente o que o interceptor devolve, não o retorno do método.
+2. decorators-composite (CRITICAL): quando não existirem, criar com applyDecorators
+   em uma pasta comum de docs:
+   - @ApiDefaultResponse(Model, { isArray?, paginated?, status? }): envelope genérico
+     via ApiExtraModels + getSchemaPath + allOf (data: Model | Model[] | página)
+   - @ApiErrorResponses(...statuses): erros no formato do exception filter
+   - @ApiEndpoint({ summary, description?, body?, response, errors, auth? }):
+     agrega os anteriores + ApiOperation, ApiBody, ApiBearerAuth
+3. dto-properties (HIGH): todo campo de DTO de entrada e saída com @ApiProperty ou
+   @ApiPropertyOptional (description, example, type, format, enum, nullable,
+   required). Se o plugin CLI estiver ativo, documentar só o que ele não infere.
+4. params-and-query (HIGH): @ApiParam para path params; query sempre via DTO de
+   query (paginação, filtros, ordenação) com enums e defaults docum
